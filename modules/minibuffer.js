@@ -163,8 +163,11 @@ function minibuffer (window) {
     this.input_element.addEventListener("input", dispatch_handle_input, true);
     this.input_element.watch("value",
         function (prop, oldval, newval) {
-            if (newval != oldval)
+            if (newval != oldval &&
+                !m.ignore_input_events)
+            {
                 call_after_timeout(dispatch_handle_input, 0);
+            }
             return newval;
         });
     // Ensure that the input area will have focus if a message is
