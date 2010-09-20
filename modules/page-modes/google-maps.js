@@ -55,20 +55,19 @@ define_key(google_maps_keymap, "C-b", "google-maps-pan-left");
 define_key(google_maps_keymap, "C-n", "google-maps-pan-down");
 define_key(google_maps_keymap, "C-p", "google-maps-pan-up");
 
-function google_maps_modality (buffer, element) {
-    if (! buffer.input_mode)
-        buffer.keymaps.push(google_maps_keymap);
-}
+var google_maps_modality = {
+    normal: google_maps_keymap
+};
 
 define_page_mode("google_maps_mode",
                  $display_name = "Google Maps",
                  $enable = function (buffer) {
-                     buffer.modalities.push(google_maps_modality);
+                     buffer.content_modalities.push(google_maps_modality);
                  },
                  $disable = function (buffer) {
-                     var i = buffer.modalities.indexOf(google_maps_modality);
+                     var i = buffer.content_modalities.indexOf(google_maps_modality);
                      if (i > -1)
-                         buffer.modalities.splice(i, 1);
+                         buffer.content_modalities.splice(i, 1);
                  });
 
 var google_maps_re = build_url_regex($domain = "maps.google");

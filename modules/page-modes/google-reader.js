@@ -54,20 +54,20 @@ define_key(google_reader_keymap, "2", null, $fallthrough);
 define_key(google_reader_keymap, "/", null, $fallthrough);
 define_key(google_reader_keymap, "a", null, $fallthrough);
 
-function google_reader_modality (buffer, element) {
-    if (! buffer.input_mode)
-        buffer.keymaps.push(google_reader_keymap);
-}
+
+var google_reader_modality = {
+    normal: google_reader_keymap
+};
 
 define_page_mode("google_reader_mode",
                  $display_name = "Google Reader",
                  $enable = function (buffer) {
-                     buffer.modalities.push(google_reader_modality);
+                     buffer.content_modalities.push(google_reader_modality);
                  },
                  $disable = function (buffer) {
-                     var i = buffer.modalities.indexOf(google_reader_modality);
+                     var i = buffer.content_modalities.indexOf(google_reader_modality);
                      if (i > -1)
-                         buffer.modalities.splice(i, 1);
+                         buffer.content_modalities.splice(i, 1);
                  });
 
 var google_reader_re = build_url_regex($domain = "google",

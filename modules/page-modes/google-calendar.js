@@ -39,20 +39,20 @@ define_key(google_calendar_keymap, "tab", null, $fallthrough);//PROBABLY BAD
 define_key(google_calendar_keymap, "M-s", null, $fallthrough);
 define_key(google_calendar_keymap, "escape", null, $fallthrough);
 
-function google_calendar_modality (buffer, element) {
-    if (! buffer.input_mode)
-        buffer.keymaps.push(google_calendar_keymap);
-}
+var google_calendar_modality = {
+    normal: google_calendar_keymap
+};
+
 
 define_page_mode("google_calendar_mode",
     $display_name = "Google Calendar",
     $enable = function (buffer) {
-        buffer.modalities.push(google_calendar_modality);
+        buffer.content_modalities.push(google_calendar_modality);
     },
     $disable = function (buffer) {
-        var i = buffer.modalities.indexOf(google_calendar_modality);
+        var i = buffer.content_modalities.indexOf(google_calendar_modality);
         if (i > -1)
-            buffer.modalities.splice(i, 1);
+            buffer.content_modalities.splice(i, 1);
     });
 
 let (re = build_url_regex($domain = "google",

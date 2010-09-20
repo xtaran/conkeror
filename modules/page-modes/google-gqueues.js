@@ -42,20 +42,19 @@ define_key(google_gqueues_keymap, "h", null, $fallthrough);
 define_key(google_gqueues_keymap, "J", null, $fallthrough);
 define_key(google_gqueues_keymap, "K", null, $fallthrough);
 
-function google_gqueues_modality (buffer, element) {
-    if (! buffer.input_mode)
-        buffer.keymaps.push(google_gqueues_keymap);
-}
+var google_gqueues_modality = {
+    normal: google_gqueues_keymap
+};
 
 define_page_mode("google_gqueues_mode",
                  $display_name = "Google GQueues",
                  $enable = function (buffer) {
-                     buffer.modalities.push(google_gqueues_modality);
+                     buffer.content_modalities.push(google_gqueues_modality);
                  },
                  $disable = function (buffer) {
-                     var i = buffer.modalities.indexOf(google_gqueues_modality);
+                     var i = buffer.content_modalities.indexOf(google_gqueues_modality);
                      if (i > -1)
-                         buffer.modalities.splice(i, 1);
+                         buffer.content_modalities.splice(i, 1);
                  });
 
 var google_gqueues_re = build_url_regex($domain = "gqueues",

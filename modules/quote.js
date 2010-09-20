@@ -8,12 +8,13 @@
 
 in_module(null);
 
+/*
 define_input_mode("quote_next", "quote_next_keymap",
     $display_name = "input:QUOTE(next)",
     $doc = "This input mode sends the next key combo to the buffer, "+
         "bypassing Conkeror's normal key handling.  The mode disengages "+
         "after one key combo.");
-
+*/
 
 define_buffer_mode('quote_mode',
     $display_name = 'QUOTE',

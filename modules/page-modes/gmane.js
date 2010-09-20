@@ -79,20 +79,19 @@ define_key(gmane_keymap, "up", null, $fallthrough);
 define_key(gmane_keymap, "S", null, $fallthrough);
 
 
-function gmane_modality (buffer, element) {
-    if (! buffer.input_mode)
-        buffer.keymaps.push(gmane_keymap);
-}
+var gmane_modality = {
+    normal: gmane_keymap
+};
 
 
 define_page_mode("gmane_mode",
     $enable = function (buffer) {
-        buffer.modalities.push(gmane_modality);
+        buffer.content_modalities.push(gmane_modality);
     },
     $disable = function (buffer) {
-        var i = buffer.modalities.indexOf(gmane_modality);
+        var i = buffer.content_modalities.indexOf(gmane_modality);
         if (i > -1)
-            buffer.modalities.splice(i, 1);
+            buffer.content_modalities.splice(i, 1);
     },
     $display_name = "Gmane");
 
