@@ -53,7 +53,7 @@ function content_buffer_modality (buffer) {
     }
     if (elem instanceof Ci.nsIDOMHTMLInputElement) {
         var type = (elem.getAttribute("type") || "").toLowerCase();
-        if ({checkbox:t, radio:t, submit:t, reset:t}[type])
+        if ({checkbox:1, radio:1, submit:1, reset:1}[type])
             return push_keymaps(type);
         else
             return push_keymaps('text');
