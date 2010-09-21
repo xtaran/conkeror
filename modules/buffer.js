@@ -962,29 +962,39 @@ function minibuffer_keymaps_display_update (buffer) {
             }, []).join("/");
         if (element.value != str)
             element.value = str;
+        element.collapsed = element.sep.collapsed = (str == "");
     }
 }
 
 function minibuffer_keymaps_display_initialize (window) {
+    var sep = create_XUL(window, "separator");
+    sep.setAttribute("orient", "vertical");
+    sep.setAttribute("class", "groove");
     var element = create_XUL(window, "label");
     element.setAttribute("id", "minibuffer-keymaps-display");
-    element.setAttribute("class", "minibuffer");
-    window.document.getElementById("minibuffer").appendChild(element);
+    element.sep = sep;
+    element.collapsed = element.sep.collapsed = true;
+    var mb = window.document.getElementById("minibuffer");
+    mb.appendChild(sep);
+    mb.appendChild(element);
 }
 
 define_global_mode("minibuffer_keymaps_display_mode",
     function enable () {
         add_hook("window_initialize_hook", minibuffer_keymaps_display_initialize);
         add_hook("set_input_mode_hook", minibuffer_keymaps_display_update);
+        for_each_window(minibuffer_keymaps_display_initialize);
     },
     function disable () {
         remove_hook("window_initialize_hook", minibuffer_keymaps_display_initialize);
         remove_hook("set_input_mode_hook", minibuffer_keymaps_display_update);
         for_each_window(function (w) {
-            var element = buffer.window.document
+            var element = w.document
                 .getElementById("minibuffer-keymaps-display");
-            if (element)
+            if (element) {
+                element.parentNode.removeChild(element.sep);
                 element.parentNode.removeChild(element);
+            }
         });
     });
 

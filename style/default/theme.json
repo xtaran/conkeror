@@ -1,6 +1,5 @@
 
 { "sheets": [
-      "buffer--keymaps-display.css",
       "content-buffer-input.css",
       "minibuffer.css",
       "mode-line.css",
