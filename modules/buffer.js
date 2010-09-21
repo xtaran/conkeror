@@ -597,13 +597,6 @@ minibuffer.prototype.read_buffer = function () {
 };
 
 
-interactive("buffer-reset-input-mode",
-    "Force a reset of the input mode.  Used by quote-next.",
-    function (I) {
-        I.buffer.set_input_mode();
-    });
-
-
 function buffer_next (window, count) {
     var index = window.buffers.selected_index;
     var total = window.buffers.count;

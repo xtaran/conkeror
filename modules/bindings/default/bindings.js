@@ -51,7 +51,7 @@ define_keymap("read_buffer_keymap", $parent = minibuffer_keymap);
 
 define_keymap("caret_keymap");
 
-define_keymap("quote_next_keymap", $display_name = "quote-next");
+define_keymap("quote_next_keymap");
 define_keymap("quote_keymap");
 
 
