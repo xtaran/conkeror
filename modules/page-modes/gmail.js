@@ -72,7 +72,7 @@ define_key(gmail_keymap, "[", null, $fallthrough);
 define_key(gmail_keymap, "l", null, $fallthrough);
 
 define_keymap("gmail_edit_keymap", $parent = gmail_base_keymap,
-              $display_name = "gmail");
+              $display_name = "gmail-edit");
 define_fallthrough(gmail_edit_keymap, match_text_keys);
 
 var gmail_modality = {
