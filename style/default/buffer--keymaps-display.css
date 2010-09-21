@@ -1,0 +1,11 @@
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#keymaps-display {
+  border-left: 1px solid threedshadow;
+  padding-left: 4px;
+}
+
+#keymaps-display[value=""] {
+  display: none;
+}

@@ -952,7 +952,7 @@ minibuffer_mode_indicator_mode(true);
  */
 function minibuffer_keymaps_display_update (buffer) {
     var element = buffer.window.document
-        .getElementById("minibuffer-keymaps-display");
+        .getElementById("keymaps-display");
     if (element) {
         var str = buffer.keymaps.reduce(
             function (acc, kmap) {
@@ -967,15 +967,9 @@ function minibuffer_keymaps_display_update (buffer) {
 }
 
 function minibuffer_keymaps_display_initialize (window) {
-    var sep = create_XUL(window, "separator");
-    sep.setAttribute("orient", "vertical");
-    sep.setAttribute("class", "groove");
     var element = create_XUL(window, "label");
-    element.setAttribute("id", "minibuffer-keymaps-display");
-    element.sep = sep;
-    element.collapsed = element.sep.collapsed = true;
+    element.setAttribute("id", "keymaps-display");
     var mb = window.document.getElementById("minibuffer");
-    mb.appendChild(sep);
     mb.appendChild(element);
 }
 
@@ -990,11 +984,9 @@ define_global_mode("minibuffer_keymaps_display_mode",
         remove_hook("set_input_mode_hook", minibuffer_keymaps_display_update);
         for_each_window(function (w) {
             var element = w.document
-                .getElementById("minibuffer-keymaps-display");
-            if (element) {
-                element.parentNode.removeChild(element.sep);
+                .getElementById("keymaps-display");
+            if (element)
                 element.parentNode.removeChild(element);
-            }
         });
     });
 
