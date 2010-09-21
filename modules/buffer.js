@@ -962,7 +962,6 @@ function minibuffer_keymaps_display_update (buffer) {
             }, []).join("/");
         if (element.value != str)
             element.value = str;
-        element.collapsed = element.sep.collapsed = (str == "");
     }
 }
 
