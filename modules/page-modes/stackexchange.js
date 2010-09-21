@@ -57,7 +57,7 @@ interactive("stackexchange-favorite-question",
     });
 
 
-define_keymap("stackexchange_keymap");
+define_keymap("stackexchange_keymap", $display_name = "stackexchange");
 define_key(stackexchange_keymap, "V", "stackexchange-vote");
 define_key(stackexchange_keymap, "A", "stackexchange-accept-answer");
 define_key(stackexchange_keymap, "O", "stackexchange-favorite-question");

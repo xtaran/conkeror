@@ -1,6 +1,6 @@
 /**
  * (C) Copyright 2008 Will Farrington
- * (C) Copyright 2009 John J. Foerch
+ * (C) Copyright 2009-2010 John J. Foerch
  *
  * Use, modification, and distribution are subject to the terms specified in the
  * COPYING file.
@@ -11,7 +11,7 @@ in_module(null);
 require("content-buffer.js");
 
 
-define_keymap("google_reader_keymap");
+define_keymap("google_reader_keymap", $display_name = "google-reader");
 define_fallthrough(google_reader_keymap, match_any_unmodified_character);
 
 // Help

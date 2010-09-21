@@ -1,6 +1,6 @@
 /**
  * (C) Copyright 2008 David Kettler
- * (C) Copyright 2009 John J. Foerch
+ * (C) Copyright 2009-2010 John J. Foerch
  *
  * Use, modification, and distribution are subject to the terms specified in the
  * COPYING file.
@@ -10,7 +10,7 @@ in_module(null);
 
 require("content-buffer.js");
 
-define_keymap("gmane_keymap");
+define_keymap("gmane_keymap", $display_name = "gmane");
 
 /* Rebind most overridden commands. */
 //BAAAAAAD

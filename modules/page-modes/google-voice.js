@@ -10,7 +10,7 @@ in_module(null);
 require("content-buffer.js");
 
 
-define_keymap("google_voice_keymap");
+define_keymap("google_voice_keymap", $display_name = "google-voice");
 define_fallthrough(google_voice_keymap, match_any_unmodified_character);
 
 // Shortcuts

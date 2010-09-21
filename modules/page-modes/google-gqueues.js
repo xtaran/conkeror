@@ -10,7 +10,7 @@ in_module(null);
 require("content-buffer.js");
 
 
-define_keymap("google_gqueues_keymap");
+define_keymap("google_gqueues_keymap", $display_name = "google-gqueues");
 define_fallthrough(google_gqueues_keymap, match_any_unmodified_character);
 
 // Current Item

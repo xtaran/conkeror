@@ -1,6 +1,6 @@
 /**
  * (C) Copyright 2008 Martin Dybdal
- * (C) Copyright 2009 John Foerch
+ * (C) Copyright 2009-2010 John Foerch
  *
  * Use, modification, and distribution are subject to the terms specified in the
  * COPYING file.
@@ -248,7 +248,7 @@ define_browser_object_class("reddit-current", null,
     });
 
 
-define_keymap("reddit_keymap");
+define_keymap("reddit_keymap", $display_name = "reddit");
 define_key(reddit_keymap, "j", "reddit-next-link");
 define_key(reddit_keymap, "k", "reddit-prev-link");
 define_key(reddit_keymap, ",", "reddit-vote-up");

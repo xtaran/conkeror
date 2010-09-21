@@ -2,7 +2,7 @@
  * (C) Copyright 2008 David Glasser
  * (C) Copyright 2008 Will Farrington
  * (C) Copyright 2008 Jeremy Maitin-Shepard
- * (C) Copyright 2009 John J. Foerch
+ * (C) Copyright 2009-2010 John J. Foerch
  *
  * Use, modification, and distribution are subject to the terms specified in the
  * COPYING file.
@@ -24,7 +24,8 @@ define_key(gmail_base_keymap, "C-c b", "bookmark");
 define_key(gmail_base_keymap, "tab", null, $fallthrough);
 
 
-define_keymap("gmail_keymap", $parent = gmail_base_keymap);
+define_keymap("gmail_keymap", $parent = gmail_base_keymap,
+              $display_name = "gmail");
 
 // Jumping
 define_key(gmail_keymap, "g", null, $fallthrough);
@@ -70,7 +71,8 @@ define_key(gmail_keymap, "]", null, $fallthrough);
 define_key(gmail_keymap, "[", null, $fallthrough);
 define_key(gmail_keymap, "l", null, $fallthrough);
 
-define_keymap("gmail_edit_keymap", $parent = gmail_base_keymap);//BAD
+define_keymap("gmail_edit_keymap", $parent = gmail_base_keymap,
+              $display_name = "gmail");
 define_fallthrough(gmail_edit_keymap, match_text_keys);
 
 var gmail_modality = {

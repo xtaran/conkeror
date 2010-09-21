@@ -1,6 +1,6 @@
 /**
  * (C) Copyright 2009 Deniz Dogan
- * (C) Copyright 2009 John J. Foerch
+ * (C) Copyright 2009-2010 John J. Foerch
  *
  * Use, modification, and distribution are subject to the terms specified in the
  * COPYING file.
@@ -124,7 +124,7 @@ interactive("wikipedia-other-language",
             });
 
 
-define_keymap("wikipedia_keymap");
+define_keymap("wikipedia_keymap", $display_name = "wikipedia");
 define_key(wikipedia_keymap, "C-c C-o", "wikipedia-other-language");
 
 

@@ -1,6 +1,6 @@
 /**
  * (C) Copyright 2008 Nelson Elhage
- * (C) Copyright 2009 John J. Foerch
+ * (C) Copyright 2009-2010 John J. Foerch
  *
  * Use, modification, and distribution are subject to the terms specified in the
  * COPYING file.
@@ -10,7 +10,7 @@ in_module(null);
 
 require("content-buffer.js");
 
-define_keymap("google_calendar_keymap");
+define_keymap("google_calendar_keymap", $display_name = "google-calendar");
 
 define_key(google_calendar_keymap, "c", null, $fallthrough);
 define_key(google_calendar_keymap, "C-c c", "copy");//BAD

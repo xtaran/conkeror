@@ -1,6 +1,6 @@
 /**
  * (C) Copyright 2008 Jeremy Maitin-Shepard
- * (C) Copyright 2009 John J. Foerch
+ * (C) Copyright 2009-2010 John J. Foerch
  *
  * Use, modification, and distribution are subject to the terms specified in the
  * COPYING file.
@@ -11,7 +11,7 @@ in_module(null);
 require("content-buffer.js");
 
 
-define_keymap("google_search_results_keymap");
+define_keymap("google_search_results_keymap", $display_name = "google-search-results");
 
 // Keys for the "experimental" keyboard search
 define_key(google_search_results_keymap, "j", "ensure-content-focused", $fallthrough);
