@@ -968,6 +968,7 @@ function minibuffer_keymaps_display_update (buffer) {
 function minibuffer_keymaps_display_initialize (window) {
     var element = create_XUL(window, "label");
     element.setAttribute("id", "keymaps-display");
+    element.setAttribute("value", "");
     var mb = window.document.getElementById("minibuffer");
     mb.appendChild(element);
 }
