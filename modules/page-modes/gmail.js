@@ -71,21 +71,9 @@ define_key(gmail_keymap, "]", null, $fallthrough);
 define_key(gmail_keymap, "[", null, $fallthrough);
 define_key(gmail_keymap, "l", null, $fallthrough);
 
-define_keymap("gmail_edit_keymap", $parent = gmail_base_keymap,
-              $display_name = "gmail-edit");
-define_fallthrough(gmail_edit_keymap, match_text_keys);
 
 var gmail_modality = {
-    normal: gmail_keymap,
-    checkbox: gmail_edit_keymap, // pure evil
-    radio: gmail_edit_keymap,    // pure evil
-    submit: gmail_edit_keymap,   // pure evil
-    reset: gmail_edit_keymap,    // pure evil
-    text: gmail_edit_keymap,     // pure evil
-    textarea: gmail_edit_keymap, // pure evil
-    select: gmail_edit_keymap,   // pure evil
-    button: gmail_edit_keymap,   // pure evil
-    richedit: gmail_edit_keymap  // pure evil
+    normal: gmail_keymap
 };
 
 function gmail_focus_primary_frame (buffer) {
