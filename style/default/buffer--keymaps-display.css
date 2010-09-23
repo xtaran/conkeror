@@ -2,10 +2,15 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
 #keymaps-display {
+  display: none;
+}
+
+#minibuffer[minibuffermode="message"] #keymaps-display {
+  display: block;
   border-left: 1px solid threedshadow;
   padding-left: 4px;
 }
 
-#keymaps-display[value=""] {
+#minibuffer[minibuffermode="message"] #keymaps-display[value=""] {
   display: none;
 }
