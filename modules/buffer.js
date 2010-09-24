@@ -905,8 +905,7 @@ function minibuffer_mode_indicator (window) {
     this.window = window;
     var element = create_XUL(window, "label");
     element.setAttribute("id", "minibuffer-mode-indicator");
-    element.collapsed = true;
-    element.setAttribute("class", "minibuffer");
+    element.setAttribute("class", "mode-text-widget");
     window.document.getElementById("minibuffer").appendChild(element);
     this.element = element;
     this.hook_func = method_caller(this, this.update);
@@ -927,7 +926,6 @@ minibuffer_mode_indicator.prototype = {
                 else
                     return null;
             }).filter(function (x) x != null).join(" ");
-        this.element.collapsed = (str.length == 0);
         this.element.value = str;
     },
     uninstall: function () {

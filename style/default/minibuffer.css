@@ -30,7 +30,10 @@
 #minibuffer[minibuffermode="message"] .mode-text-widget {
   display: block;
   border-left: 1px solid threedshadow;
-  padding-left: 4px;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 
 #minibuffer[minibuffermode="message"] .mode-text-widget[value=""] {
