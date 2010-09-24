@@ -922,7 +922,7 @@ minibuffer_mode_indicator.prototype = {
             function (x) {
                 let y = mode_display_names[x];
                 if (y)
-                    return "[" + y + "]";
+                    return y;
                 else
                     return null;
             }).filter(function (x) x != null).join(" ");
