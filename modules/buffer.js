@@ -929,8 +929,8 @@ minibuffer_mode_indicator.prototype = {
         this.element.value = str;
     },
     uninstall: function () {
-        remove_hook.call(window, "select_buffer_hook", this.hook_fun);
-        remove_hook.call(window, "current_buffer_mode_change_hook", this.hook_fun);
+        remove_hook.call(this.window, "select_buffer_hook", this.hook_fun);
+        remove_hook.call(this.window, "current_buffer_mode_change_hook", this.hook_fun);
         this.element.parentNode.removeChild(this.element);
     }
 };
