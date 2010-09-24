@@ -9,17 +9,6 @@
   background-color: -moz-field !important;
 }
 
-#minibuffer.minibuffer-text-input-mode[minibuffermode="message"],
-#minibuffer.minibuffer-textarea-input-mode[minibuffermode="message"],
-#minibuffer.minibuffer-select-input-mode[minibuffermode="message"],
-#minibuffer.minibuffer-checkbox-input-mode[minibuffermode="message"],
-#minibuffer.minibuffer-richedit-input-mode[minibuffermode="message"],
-#minibuffer.minibuffer-quote-next-input-mode[minibuffermode="message"],
-#minibuffer.minibuffer-quote-input-mode[minibuffermode="message"]{
-  background-color: Highlight;
-  color: HighlightText;
-}
-
 
 /* mode text widgets */
 
@@ -38,6 +27,20 @@
 
 #minibuffer[minibuffermode="message"] .mode-text-widget[value=""] {
   display: none;
+}
+
+
+/* minibuffer highlighting */
+
+#minibuffer .mode-text-widget[value~="text"],
+#minibuffer .mode-text-widget[value~="textarea"],
+#minibuffer .mode-text-widget[value~="select"],
+#minibuffer .mode-text-widget[value~="checkbox"],
+#minibuffer .mode-text-widget[value~="richedit"],
+#minibuffer .mode-text-widget[value~="QUOTE"],
+#minibuffer .mode-text-widget[value~="QUOTE-NEXT"] {
+  background-color: Highlight;
+  color: HighlightText;
 }
 
 
