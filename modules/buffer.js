@@ -951,7 +951,7 @@ function minibuffer_keymaps_display_update (buffer) {
                 if (kmap.display_name)
                     acc.push(kmap.display_name);
                 return acc;
-            }, []).join(" ");
+            }, []).join("/");
         if (element.value != str)
             element.value = str;
     }
