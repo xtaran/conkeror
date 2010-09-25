@@ -992,9 +992,9 @@ minibuffer_keymaps_display_mode(true);
 function minibuffer_keymaps_highlight_update (buffer) {
     var mb = buffer.window.document.getElementById("minibuffer");
     if (buffer.keymaps.some(function (k) k.notify))
-        mb.classList.add("highlight");
+        dom_add_class(mb, "highlight");
     else
-        mb.classList.remove("highlight");
+        dom_remove_class(mb, "highlight");
 }
 
 define_global_mode("minibuffer_keymaps_highlight_mode",
@@ -1008,7 +1008,7 @@ define_global_mode("minibuffer_keymaps_highlight_mode",
         for_each_window(function (w) {
             var mb = w.document.getElementById("minibuffer");
             if (mb)
-                mb.classList.remove("highlight");
+                dom_remove_class("highlight");
         });
     });
 
