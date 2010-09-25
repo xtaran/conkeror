@@ -32,15 +32,13 @@
 
 /* minibuffer highlighting */
 
-#minibuffer .mode-text-widget[value~="text"],
-#minibuffer .mode-text-widget[value~="textarea"],
-#minibuffer .mode-text-widget[value~="select"],
-#minibuffer .mode-text-widget[value~="checkbox"],
-#minibuffer .mode-text-widget[value~="richedit"],
-#minibuffer .mode-text-widget[value~="QUOTE"],
-#minibuffer .mode-text-widget[value~="QUOTE-NEXT"] {
+#minibuffer.highlight {
   background-color: Highlight;
   color: HighlightText;
+}
+
+#minibuffer.highlight[minibuffermode="message"] .mode-text-widget {
+  border-left: 1px solid threedhighlight;
 }
 
 

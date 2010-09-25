@@ -194,11 +194,12 @@ buffer.prototype = {
     override_keymaps: function (keymaps) {//XXX: review this
         if (keymaps) {
             this.keymaps = keymaps;
-            this.set_input_mode = function () {};
-        } else {
+            this.set_input_mode = function () {
+                set_input_mode_hook.run(this);
+            };
+        } else
             delete this.set_input_mode;
-            this.set_input_mode();
-        }
+        this.set_input_mode();
     },
 
     /* Browser accessors */
@@ -983,6 +984,35 @@ define_global_mode("minibuffer_keymaps_display_mode",
     });
 
 minibuffer_keymaps_display_mode(true);
+
+
+/*
+ * minibuffer-keymaps-highlight
+ */
+function minibuffer_keymaps_highlight_update (buffer) {
+    var mb = buffer.window.document.getElementById("minibuffer");
+    if (buffer.keymaps.some(function (k) k.notify))
+        mb.classList.add("highlight");
+    else
+        mb.classList.remove("highlight");
+}
+
+define_global_mode("minibuffer_keymaps_highlight_mode",
+    function enable () {
+        //XXX: just have to fixup keymap overriding so that this works
+        //     with quote_keymap and quote_next_keymap
+        add_hook("set_input_mode_hook", minibuffer_keymaps_highlight_update);
+    },
+    function disable () {
+        remove_hook("set_input_mode_hook", minibuffer_keymaps_highlight_update);
+        for_each_window(function (w) {
+            var mb = w.document.getElementById("minibuffer");
+            if (mb)
+                mb.classList.remove("highlight");
+        });
+    });
+
+minibuffer_keymaps_highlight_mode(true);
 
 
 provide("buffer");
