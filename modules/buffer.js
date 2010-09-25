@@ -999,8 +999,6 @@ function minibuffer_keymaps_highlight_update (buffer) {
 
 define_global_mode("minibuffer_keymaps_highlight_mode",
     function enable () {
-        //XXX: just have to fixup keymap overriding so that this works
-        //     with quote_keymap and quote_next_keymap
         add_hook("set_input_mode_hook", minibuffer_keymaps_highlight_update);
     },
     function disable () {
