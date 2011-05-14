@@ -1,6 +1,6 @@
 /**
  * (C) Copyright 2004-2007 Shawn Betts
- * (C) Copyright 2007-2010 John J. Foerch
+ * (C) Copyright 2007-2011 John J. Foerch
  * (C) Copyright 2007-2008 Jeremy Maitin-Shepard
  *
  * Use, modification, and distribution are subject to the terms specified in the
@@ -29,6 +29,7 @@ define_buffer_local_hook("create_buffer_early_hook");
 define_buffer_local_hook("create_buffer_late_hook");
 define_buffer_local_hook("create_buffer_hook");
 define_buffer_local_hook("kill_buffer_hook");
+define_buffer_local_hook("move_buffer_hook");
 define_buffer_local_hook("buffer_scroll_hook");
 define_buffer_local_hook("buffer_dom_content_loaded_hook");
 define_buffer_local_hook("buffer_loaded_hook");
@@ -41,7 +42,7 @@ define_current_buffer_hook("current_buffer_scroll_hook", "buffer_scroll_hook");
 define_current_buffer_hook("current_buffer_dom_content_loaded_hook", "buffer_dom_content_loaded_hook");
 
 
-define_keywords("$opener");
+define_keywords("$opener", "$position");
 function buffer_creator (type) {
     var args = forward_keywords(arguments);
     return function (window) {
@@ -64,6 +65,7 @@ function buffer (window) {
     this.constructor_begin();
     keywords(arguments);
     this.opener = arguments.$opener;
+    var position = arguments.$position;
     this.window = window;
     var element = create_XUL(window, "vbox");
     element.setAttribute("flex", "1");
@@ -76,7 +78,13 @@ function buffer (window) {
     browser.setAttribute("autocompletepopup", "popup_autocomplete");
     element.appendChild(browser);
     this.window.buffers.container.appendChild(element);
-    this.window.buffers.buffer_list.push(this);
+    if (position == "end")
+        this.window.buffers.buffer_list.push(this);
+    else
+        this.window.buffers.buffer_list.splice(
+            this.window.buffers.buffer_list.indexOf(this.opener) + 1,
+            0, this);
+    this.window.buffers.buffer_history.push(this);
     this.element = element;
     this.browser = element.firstChild;
     this.element.conkeror_buffer_object = this;
@@ -327,6 +335,7 @@ function buffer_container (window, create_initial_buffer) {
     this.window = window;
     this.container = window.document.getElementById("buffer-container");
     this.buffer_list = [];
+    this.buffer_history = [];
     window.buffers = this;
     create_initial_buffer(window);
 }
@@ -342,8 +351,8 @@ buffer_container.prototype = {
         if (old_value == buffer)
             return;
 
-        this.buffer_list.splice(this.buffer_list.indexOf(buffer), 1);
-        this.buffer_list.unshift(buffer);
+        this.buffer_history.splice(this.buffer_history.indexOf(buffer), 1);
+        this.buffer_history.unshift(buffer);
 
         this._switch_away_from(this.current);
         this._switch_to(buffer);
@@ -394,24 +403,24 @@ buffer_container.prototype = {
 
     get_buffer: function (index) {
         if (index >= 0 && index < this.count)
-            return this.container.childNodes.item(index).conkeror_buffer_object;
+            return this.buffer_list[index]
         return null;
     },
 
     get selected_index () {
-        var nodes = this.container.childNodes;
+        var nodes = this.buffer_list;
         var count = nodes.length;
         for (var i = 0; i < count; ++i)
-            if (nodes.item(i) == this.container.selectedPanel)
+            if (nodes[i] == this.container.selectedPanel.conkeror_buffer_object)
                 return i;
         return null;
     },
 
     index_of: function (b) {
-        var nodes = this.container.childNodes;
+        var nodes = this.buffer_list;
         var count = nodes.length;
         for (var i = 0; i < count; ++i)
-            if (nodes.item(i) == b.element)
+            if (nodes[i] == b)
                 return i;
         return null;
     },
@@ -439,10 +448,10 @@ buffer_container.prototype = {
         var count = this.count;
         if (count <= 1)
             return false;
-        var new_buffer = this.buffer_list[0];
+        var new_buffer = this.buffer_history[0];
         var changed = false;
         if (b == new_buffer) {
-            new_buffer = this.buffer_list[1];
+            new_buffer = this.buffer_history[1];
             changed = true;
         }
         this._switch_away_from(this.current);
@@ -455,23 +464,27 @@ buffer_container.prototype = {
         b.destroy();
         this.container.removeChild(element);
         this.buffer_list.splice(this.buffer_list.indexOf(b), 1);
+        this.buffer_history.splice(this.buffer_history.indexOf(b), 1);
         this._switch_to(new_buffer);
         if (changed) {
             select_buffer_hook.run(new_buffer);
-            this.buffer_list.splice(this.buffer_list.indexOf(new_buffer), 1);
-            this.buffer_list.unshift(new_buffer);
+            this.buffer_history.splice(this.buffer_history.indexOf(new_buffer), 1);
+            this.buffer_history.unshift(new_buffer);
         }
         kill_buffer_hook.run(b);
         return true;
     },
 
     bury_buffer: function (b) {
-        var new_buffer = this.buffer_list[0];
+        var new_buffer = this.buffer_history[0];
         if (b == new_buffer)
-            new_buffer = this.buffer_list[1];
+            new_buffer = this.buffer_history[1];
         this.buffer_list.splice(this.buffer_list.indexOf(b), 1);
         this.buffer_list.push(b);
+        this.buffer_history.splice(this.buffer_history.indexOf(b), 1);
+        this.buffer_history.push(b);
         this.current = new_buffer;
+        move_buffer_hook.run(b);
         return true;
     },
 
@@ -626,6 +639,31 @@ minibuffer.prototype.read_buffer = function () {
 };
 
 
+function buffer_move_forward (window, count) {
+    var buffers = window.buffers;
+    var index = buffers.selected_index;
+    var buffer = buffers.current
+    var total = buffers.count;
+    if (total == 1)
+        return;
+    var new_index = (index + count) % total;
+    if (new_index == index)
+        return;
+    if (new_index < 0)
+        new_index += total;
+    buffers.buffer_list.splice(index, 1);
+    buffers.buffer_list.splice(new_index, 0, buffer);
+    move_buffer_hook.run(buffer);
+}
+interactive("buffer-move-forward",
+    "Move the current buffer forward in the buffer order.",
+    function (I) { buffer_move_forward(I.window, I.p); });
+
+interactive("buffer-move-backward",
+    "Move the current buffer backward in the buffer order.",
+    function (I) { buffer_move_forward(I.window, -I.p); });
+
+
 function buffer_next (window, count) {
     var index = window.buffers.selected_index;
     var total = window.buffers.count;
@@ -655,7 +693,7 @@ interactive("switch-to-buffer",
             (yield I.minibuffer.read_buffer(
                 $prompt = "Switch to buffer:",
                 $default = (I.window.buffers.count > 1 ?
-                            I.window.buffers.buffer_list[1] :
+                            I.window.buffers.buffer_history[1] :
                             I.buffer))));
     });
 
