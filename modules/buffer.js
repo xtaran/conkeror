@@ -80,10 +80,14 @@ function buffer (window) {
     this.window.buffers.container.appendChild(element);
     if (position == "end")
         this.window.buffers.buffer_list.push(this);
-    else
-        this.window.buffers.buffer_list.splice(
-            this.window.buffers.buffer_list.indexOf(this.opener) + 1,
-            0, this);
+    else {
+        var i = this.window.buffers.buffer_list.indexOf(this.opener);
+        if (i == -1)
+            i = this.window.buffers.selected_index;
+        if (i == null)
+            i = -1;
+        this.window.buffers.buffer_list.splice(i + 1, 0, this);
+    }
     this.window.buffers.buffer_history.push(this);
     this.element = element;
     this.browser = element.firstChild;
