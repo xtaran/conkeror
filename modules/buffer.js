@@ -50,6 +50,26 @@ function buffer_creator (type) {
     };
 }
 
+define_variable("new_buffer_position", 0,
+    "The position in the buffer-list at which to insert new "+
+    "buffers which do not have an opener.  These include buffers "+
+    "created by typing an url or webjump, or buffers created via "+
+    "command-line remoting.  The allowed values are 'before', "+
+    "'after', 'end', or an integer index.  The values 'before' "+
+    "and 'after' are relative to the current buffer; 'end' is "+
+    "the end of the buffer-list, and integer values give an "+
+    "explicit index, with 0 being the front of the list.");
+
+define_variable("new_buffer_with_opener_position", "after",
+    "The position in the buffer-list at which to insert new "+
+    "buffers which have an opener that is in the same window. "+
+    "These include buffers created by following a link or frame, "+
+    "and contextual help buffers. The allowed values are 'before', "+
+    "'after', 'end', or an integer index.  The values 'before' "+
+    "and 'after' are relative to the current buffer; 'end' is "+
+    "the end of the buffer-list, and integer values give an "+
+    "explicit index, with 0 being the front of the list.");
+
 define_variable("allow_browser_window_close", true,
     "If this is set to true, if a content buffer page calls " +
     "window.close() from JavaScript and is not prevented by the " +
@@ -65,7 +85,6 @@ function buffer (window) {
     this.constructor_begin();
     keywords(arguments);
     this.opener = arguments.$opener;
-    var position = arguments.$position;
     this.window = window;
     var element = create_XUL(window, "vbox");
     element.setAttribute("flex", "1");
@@ -78,12 +97,7 @@ function buffer (window) {
     browser.setAttribute("autocompletepopup", "popup_autocomplete");
     element.appendChild(browser);
     this.window.buffers.container.appendChild(element);
-    if (position == "end")
-        this.window.buffers.buffer_list.push(this);
-    else
-        this.window.buffers.buffer_list.splice(
-            this.window.buffers.buffer_list.indexOf(this.opener) + 1,
-            0, this);
+    this.window.buffers.insert(this, arguments.$position, this.opener);
     this.window.buffers.buffer_history.push(this);
     this.element = element;
     this.browser = element.firstChild;
@@ -341,6 +355,27 @@ function buffer_container (window, create_initial_buffer) {
 }
 buffer_container.prototype = {
     constructor: buffer_container,
+
+    insert: function (buffer, position, opener) {
+        var i = this.indexOf(opener);
+        if (position == null) {
+            if (i == -1)
+                position = new_buffer_position;
+            else
+                position = new_buffer_with_opener_position;
+        }
+        if (i == -1)
+            i = this.selected_index || 0;
+        if (position == "before")
+            var p = i;
+        else if (position == "after")
+            p = i + 1;
+        else if (position == "end")
+            p = this.count;
+        else
+            p = position;
+        this.buffer_list.splice(p, 0, buffer);
+    },
 
     get current () {
         return this.container.selectedPanel.conkeror_buffer_object;
