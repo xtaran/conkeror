@@ -359,12 +359,12 @@ buffer_container.prototype = {
     insert: function (buffer, position, opener) {
         var i = this.index_of(opener);
         if (position == null) {
-            if (i == -1)
+            if (i == null)
                 position = new_buffer_position;
             else
                 position = new_buffer_with_opener_position;
         }
-        if (i == -1)
+        if (i == null)
             i = this.selected_index || 0;
         if (position == "before")
             var p = i;
