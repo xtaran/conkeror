@@ -83,7 +83,7 @@ function buffer_modality (buffer) {
 
 function buffer (window) {
     this.constructor_begin();
-    keywords(arguments);
+    keywords(arguments, $position = null);
     this.opener = arguments.$opener;
     this.window = window;
     var element = create_XUL(window, "vbox");
@@ -357,7 +357,7 @@ buffer_container.prototype = {
     constructor: buffer_container,
 
     insert: function (buffer, position, opener) {
-        var i = this.indexOf(opener);
+        var i = this.index_of(opener);
         if (position == null) {
             if (i == -1)
                 position = new_buffer_position;
