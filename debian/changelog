@@ -6,9 +6,9 @@ conkeror (1.0~~pre+git120523-1) UNRELEASED; urgency=low
   * Update buildd-ports webjump. Thanks Christoph Egger!
   * Add debpopcon webjump.
   * Also install new file content-policy.manifest. Thanks Joseph Gay!
-  * Support xulrunner 12.0 and 13.0
+  * Support xulrunner 12.0 to 14.0
     - Update search list in debian/conkeror.bin
-    - Add alternative dependency on xulrunner-12.0 and xulrunner-13.0
+    - Add alternative dependency on xulrunner-12.0 to xulrunner-14.0
   * Make 10.0 (ESR) first xulrunner dependency.
   * Expand sensible-editor.diff to also patch modules/mime.js, replace
     hardcoded application names with xdg-open. (Closes: #570086)
